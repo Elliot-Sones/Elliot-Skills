@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "arxiv":  { "type": "stdio", "command": "uvx", "args": ["arxiv-mcp-server", "--storage-path", "/Users/elliot18/.arxiv-mcp/papers"] },
+    "gyoshu": { "type": "stdio", "command": "node", "args": ["/Users/elliot18/Desktop/Home/Projects/competitions/SMT-Data-Challenge-2026/My-Jogyo/src/mcp/build/index.cjs"] },
+    "gbrain": { "type": "stdio", "command": "/Users/elliot18/.bun/bin/gbrain", "args": ["serve"] },
+    "obsidian": { "type": "stdio", "command": "uvx", "args": ["mcp-obsidian"], "env": { "OBSIDIAN_API_KEY": "${OBSIDIAN_API_KEY}", "OBSIDIAN_HOST": "${OBSIDIAN_HOST}", "OBSIDIAN_PORT": "${OBSIDIAN_PORT}" } }
+  }
+}

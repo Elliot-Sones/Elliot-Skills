@@ -24,3 +24,9 @@ ln -s ~/Desktop/Home/Projects/Elliot-Skills/engineering/<skill-name> <project>/.
 ```
 
 Symlinks keep a single editable copy here while each project loads only what it needs.
+
+## MCP bundle
+
+General research/dev MCP servers (arxiv, gyoshu, gbrain, obsidian) live in `mcp/general.mcp.json`.
+Run `./install-mcp.sh /path/to/project` to scope them into one project instead of loading them everywhere.
+This repo is **public** — `mcp/.env.example` shows the only secret (obsidian); never commit real `.env`.
