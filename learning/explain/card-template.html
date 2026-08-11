@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>explain card</title>
+<style>
+  :root { --accent: {{ACCENT}}; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #0b0d10; display: flex; justify-content: center;
+         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+         -webkit-font-smoothing: antialiased; }
+  .card { width: 880px; background: #0b0d10; }
+  .glow { height: 3px; background: linear-gradient(90deg, var(--accent) 0%, transparent 72%); }
+  .pad { padding: 42px 52px 36px; }
+  .top { display: flex; align-items: center; gap: 14px; }
+  .kicker { font: 600 11px ui-monospace, Menlo, monospace; letter-spacing: .2em;
+            color: #8b93a1; text-transform: uppercase; }
+  .chip { font: 500 11.5px ui-monospace, Menlo, monospace; color: var(--accent);
+          border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+          border-radius: 999px; padding: 4px 12px; }
+  .hero { font-family: ui-serif, "New York", Georgia, serif; font-weight: 600;
+          font-size: 30px; line-height: 1.38; color: #F8FAFC; margin: 22px 0 0;
+          max-width: 30ch; letter-spacing: .1px; }
+  .hero em { font-style: normal; color: var(--accent); }
+  .cols { display: flex; gap: 44px; margin-top: 38px; }
+  .decode { flex: 0 0 320px; }
+  .label { font: 600 10.5px ui-monospace, Menlo, monospace; letter-spacing: .18em;
+           color: #6b7280; text-transform: uppercase; margin: 0 0 6px; }
+  .row { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .row:last-child { border-bottom: none; }
+  .row dt { flex: 0 0 128px; margin: 0; font: 600 13.5px ui-monospace, Menlo, monospace;
+            color: var(--accent); padding-top: 1px; }
+  .row dd { margin: 0; font-size: 15px; line-height: 1.5; color: #c8cdd6; }
+  .visualcol { flex: 1; min-width: 0; }
+  .panel { background: #10131a; border: 1px solid rgba(255,255,255,.06);
+           border-radius: 12px; padding: 20px 22px; margin-top: 2px; }
+  .foot { margin-top: 36px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.06);
+          display: flex; justify-content: space-between;
+          font: 12px ui-monospace, Menlo, monospace; color: #565e6e; }
+  .foot b { color: #8b93a1; font-weight: 500; }
+
+  /* visual components: all data-driven, see DESIGN.md */
+  .fbox { background: #0b0e14; border: 1px solid rgba(255,255,255,.09);
+          border-radius: 9px; padding: 13px 16px; }
+  .fsub { font: 12.5px ui-monospace, Menlo, monospace; color: #8b93a1; margin-bottom: 6px; }
+  .fmain { font: 14.5px ui-monospace, Menlo, monospace; color: #F8FAFC; }
+  .fk-accent { color: var(--accent); } .fk-amber { color: #fbbf24; }
+  .fk-red { color: #f7768e; } .fk-green { color: #4ade80; } .fk-dim { color: #8b93a1; }
+  .farrow { display: flex; align-items: center; gap: 12px; padding: 5px 0 5px 24px; }
+  .fline { width: 1.6px; height: 22px; background: #3a3f4b; position: relative; }
+  .fline::after { content: ""; position: absolute; bottom: -6px; left: -3.4px;
+                  border: 4px solid transparent; border-top-color: #3a3f4b; }
+  .fcap { font: 12px ui-monospace, Menlo, monospace; color: #6b7280; }
+  .brow { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+  .blabel { flex: 0 0 118px; font: 12.5px ui-monospace, Menlo, monospace;
+            color: #8b93a1; text-align: right; }
+  .btrack { flex: 1; height: 15px; background: rgba(255,255,255,.05); border-radius: 4px; }
+  .bfill { height: 100%; background: var(--accent); border-radius: 4px; min-width: 3px; }
+  .bfill.bdim { background: #3a3f4b; }
+  .bval { flex: 0 0 52px; font: 600 13px ui-monospace, Menlo, monospace; color: #F8FAFC; }
+  .cgrid { display: grid; grid-template-columns: 104px 1fr 1fr; gap: 1px;
+           background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.07);
+           border-radius: 10px; overflow: hidden; }
+  .cgrid > div { background: #0b0e14; padding: 11px 13px; }
+  .chead { font: 600 11px ui-monospace, Menlo, monospace; letter-spacing: .12em;
+           text-transform: uppercase; color: #F8FAFC; }
+  .crl { font: 12px ui-monospace, Menlo, monospace; color: #6b7280; }
+  .ccell { font-size: 13.5px; line-height: 1.45; color: #c8cdd6; }
+  .cwin { color: #F8FAFC; box-shadow: inset 2.5px 0 0 var(--accent); }
+  .vtree { font: 13.5px ui-monospace, Menlo, monospace; color: #c8cdd6;
+           line-height: 1.8; margin: 0; }
+  .svals { display: flex; justify-content: space-between;
+           font: 12.5px ui-monospace, Menlo, monospace; color: #8b93a1; margin-bottom: 6px; }
+  .snote { font: 12px ui-monospace, Menlo, monospace; color: #6b7280; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="glow"></div>
+  <div class="pad">
+    <div class="top">
+      <span class="kicker">explained</span>
+      <span class="chip">{{TOPIC}}</span>
+    </div>
+    <h1 class="hero">{{HERO_HTML}}</h1>
+    <div class="cols">
+      <div class="decode">
+        <p class="label">the words</p>
+{{ROWS_HTML}}
+      </div>
+      <div class="visualcol">
+        <p class="label">{{VISUAL_LABEL}}</p>
+        <div class="panel"><div id="visual"></div></div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>fuzzy word left? <b>just say it</b></span>
+      <span>want it to stick? <b>/comprend</b></span>
+    </div>
+  </div>
+</div>
+<script>
+const VISUAL = {{VISUAL_JSON}};
+const root = document.getElementById("visual");
+const el = (t, c, txt) => { const e = document.createElement(t); if (c) e.className = c;
+  if (txt != null) e.textContent = txt; return e; };
+
+const render = {
+  flow(v) {
+    v.steps.forEach((s, i) => {
+      if (i) {
+        const a = el("div", "farrow");
+        a.append(el("span", "fline"), el("span", "fcap", (v.arrows || [])[i - 1] || ""));
+        root.append(a);
+      }
+      const b = el("div", "fbox");
+      if (s.sub) b.append(el("div", "fsub", s.sub));
+      const m = el("div", "fmain");
+      (s.parts || [{ t: s.label }]).forEach(p => m.append(el("span", p.k ? "fk-" + p.k : "", p.t)));
+      b.append(m);
+      root.append(b);
+    });
+  },
+  bars(v) {
+    const max = v.max || Math.max(...v.items.map(i => i.value));
+    v.items.forEach(it => {
+      const r = el("div", "brow");
+      r.append(el("span", "blabel", it.label));
+      const track = el("div", "btrack");
+      const fill = el("div", "bfill" + (it.dim ? " bdim" : ""));
+      fill.style.width = Math.max(100 * it.value / max, 1.5) + "%";
+      track.append(fill);
+      r.append(track, el("span", "bval", String(it.display ?? it.value)));
+      root.append(r);
+    });
+    if (v.note) root.append(el("div", "snote", v.note));
+  },
+  compare(v) {
+    const g = el("div", "cgrid");
+    g.append(el("div", "crl", ""), el("div", "chead", v.a), el("div", "chead", v.b));
+    v.rows.forEach(rw => {
+      g.append(el("div", "crl", rw.label));
+      g.append(el("div", "ccell" + (rw.win === "a" ? " cwin" : ""), (rw.win === "a" ? "✓ " : "") + rw.va));
+      g.append(el("div", "ccell" + (rw.win === "b" ? " cwin" : ""), (rw.win === "b" ? "✓ " : "") + rw.vb));
+    });
+    root.append(g);
+    if (v.note) root.append(el("div", "snote", v.note));
+  },
+  tree(v) {
+    root.append(el("pre", "vtree", v.text));
+  },
+  spark(v) {
+    const W = 420, H = 110, pad = 6;
+    const vals = v.values, max = Math.max(...vals), min = Math.min(...vals);
+    const x = i => pad + i * (W - 2 * pad) / (vals.length - 1);
+    const y = val => H - pad - (H - 2 * pad) * (val - min) / (max - min || 1);
+    const row = el("div", "svals");
+    vals.forEach(val => row.append(el("span", null, String(val))));
+    root.append(row);
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", "100%"); svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    const pl = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    pl.setAttribute("points", vals.map((val, i) => `${x(i)},${y(val)}`).join(" "));
+    pl.setAttribute("fill", "none");
+    pl.setAttribute("stroke", getComputedStyle(document.documentElement).getPropertyValue("--accent"));
+    pl.setAttribute("stroke-width", "2.2");
+    svg.append(pl);
+    vals.forEach((val, i) => {
+      const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      c.setAttribute("cx", x(i)); c.setAttribute("cy", y(val)); c.setAttribute("r", "3");
+      c.setAttribute("fill", "#F8FAFC");
+      svg.append(c);
+    });
+    root.append(svg);
+    if (v.note) root.append(el("div", "snote", v.note));
+  },
+};
+render[VISUAL.type](VISUAL);
+</script>
+</body>
+</html>

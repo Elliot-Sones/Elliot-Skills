@@ -1,0 +1,10 @@
+# generated artifacts (rebuildable; never commit)
+**/__pycache__/
+*.pyc
+**/graph.html
+.DS_Store
+
+# secrets
+mcp/.env
+*.env
+!mcp/.env.example
