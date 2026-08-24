@@ -4,8 +4,8 @@ Personal library of Claude Code skills, organized by domain. This repo is the so
 
 ## Structure
 
-- `learning/` : study, comprehension, and research workflows
-- `engineering/` : software, data, and ML engineering
+- `learning/` : study, comprehension, and research workflows (comprend, explain, simplify)
+- `engineering/` : software, data, and ML engineering (eda, experiment-loop, data-validation, python-scaffold)
 - `finance/` : financial analysis and tracking
 
 Each section will hold skill folders in the standard Agent Skills format: a folder containing a `SKILL.md` (YAML frontmatter with name and description, then instructions), plus optional `references/` and `scripts/`.
@@ -17,10 +17,16 @@ Skills load based on where a copy or symlink is placed, not where they live in t
 - One project only: link the skill into `<project>/.claude/skills/`
 - Everywhere: link the skill into `~/.claude/skills/`
 
-Example:
+Install a whole section into one project:
 
 ```sh
-ln -s ~/Desktop/Home/Projects/Elliot-Skills/engineering/<skill-name> <project>/.claude/skills/<skill-name>
+./install.sh engineering /path/to/project
+```
+
+Or link a single skill:
+
+```sh
+ln -s ~/Projects/Elliot-Skills/engineering/<skill-name> <project>/.claude/skills/<skill-name>
 ```
 
 Symlinks keep a single editable copy here while each project loads only what it needs.
